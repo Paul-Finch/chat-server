@@ -34,9 +34,7 @@ wsServer.on("request", function (request) {
       if (userName === false) {
         userName = message.utf8Data;
         // Send chat history
-        if (history.length > 0) {
-          connection.sendUTF(JSON.stringify({ type: "history", data: history }));
-        }
+        connection.sendUTF(JSON.stringify({ type: "history", data: history }));
         console.log(
           new Date() +
             " User is known as: " +
