@@ -10,7 +10,9 @@ const server = http.createServer(function (request, response) {
   // HTTP Server stays empty - just needed to create WebScocker server
 });
 server.listen(webSocketsServerPort, function () {
-  console.log(new Date() + " Server is listening on port " + webSocketsServerPort);
+  console.log(
+    new Date() + " Server is listening on port " + webSocketsServerPort
+  );
 });
 const wsServer = new webSocketServer({
   // WebSocket server is tied to a HTTP server. WebSocket
@@ -23,18 +25,39 @@ const wsServer = new webSocketServer({
 wsServer.on("request", function (request) {
   const connection = request.accept(null, request.origin);
   const index = clients.push(connection) - 1;
-  let userName = false;
-  console.log((new Date()) + ' Connection accepted.');
+  let userName = 'Test';
+  console.log(new Date() + " Connection accepted.");
   // Send chat history
   if (history.length > 0) {
-    connection.sendUTF(JSON.stringify({ type: 'history', data: history} ));
+    connection.sendUTF(JSON.stringify({ type: "history", data: history }));
   }
 
   // Client sent some message
   connection.on("message", function (message) {
+    if (message.type === "utf8") {
+      console.log(
+        new Date() +
+          " Received Message from " +
+          userName +
+          ": " +
+          message.utf8Data
+      );
+      // we want to keep history of all sent messages
+      const obj = {
+        time: new Date().getTime(),
+        text: message.utf8Data,
+        author: userName,
+      };
+      history.push(obj);
+      history = history.slice(-100);
+      // broadcast message to all connected clients
+      const json = JSON.stringify({ type: "message", data: obj });
+      for (var i = 0; i < clients.length; i++) {
+        clients[i].sendUTF(json);
+      }
+    }
   });
 
   // Client disconnects
-  connection.on("close", function (connection) {
-  });
+  connection.on("close", function (connection) {});
 });
