@@ -25,7 +25,7 @@ const wsServer = new webSocketServer({
 wsServer.on("request", function (request) {
   const connection = request.accept(null, request.origin);
   const index = clients.push(connection) - 1;
-  let userName = 'Test';
+  let userName = "Test";
   console.log(new Date() + " Connection accepted.");
   // Send chat history
   if (history.length > 0) {
@@ -59,5 +59,10 @@ wsServer.on("request", function (request) {
   });
 
   // Client disconnects
-  connection.on("close", function (connection) {});
+  connection.on("close", function (connection) {
+    console.log(
+      new Date() + " Peer " + connection.remoteAddress + " disconnected."
+    );
+    clients.splice(index, 1);
+  });
 });
