@@ -1,0 +1,22 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "chat-server connects clients in chat rooms",
+  "main": "main.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Paul-Finch/chat-server.git"
+  },
+  "author": "Konrad Schewe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Paul-Finch/chat-server/issues"
+  },
+  "homepage": "https://github.com/Paul-Finch/chat-server#readme",
+  "dependencies": {
+    "websocket": "^1.0.34"
+  }
+}
