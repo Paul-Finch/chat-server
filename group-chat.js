@@ -24,6 +24,10 @@ const wsServer = new webSocketServer({
 // Client connects
 wsServer.on("request", function (request) {
   const connection = request.accept(null, request.origin);
+  if (clients.length >= 0) {
+    connection.close(1013, "There are already 32 clients connected to the group chat. Try connecting again later.");
+    return;
+  }
   const index = clients.push(connection) - 1;
   let userName = false;
   console.log(new Date() + " Connection accepted.");
