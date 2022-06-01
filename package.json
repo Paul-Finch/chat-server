@@ -2,7 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "description": "chat-server connects clients in chat rooms",
-  "main": "main.js",
+  "main": "group-chat.js",
   "scripts": {
     "test": "test"
   },
